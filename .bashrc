@@ -16,9 +16,9 @@ fi
 # Functions
 ksw() {
     if [[ -n "$1" ]]; then
-        kubectl cnf "$1"
+        kubectl ctx "$1"
     else
-        kubectl cnf
+        kubectl ctx
     fi
     if [[ -n "$2" ]]; then
         kubectl ns "$2"
@@ -53,11 +53,11 @@ getPodsByNode() {
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 source <(kubectl completion bash)
 complete -o default -F __start_kubectl k
-source /usr/share/fzf/shell/key-bindings.bash
-source /usr/share/fzf/shell/tab-completion.bash
-bind -x '"\t": fzf_bash_completion'
+source /usr/share/fzf/completion.bash
+source /usr/share/fzf/key-bindings.bash
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
+export SUDO_PROMPT="[⚡ sudo on $(cat /etc/hostname) for $USER]:"
+export GTK_THEME=Adwaita-dark
 # Env
 export VAULT_ADDR="https://vault.morrislan.net"
 export KCNF_SYMLINK=1
@@ -76,3 +76,4 @@ alias kgs="k get services"
 alias kga="k get applications"
 alias kdp="k delete pods"
 alias ceph="k rook-ceph ceph"
+alias dot="/usr/bin/git --git-dir=$HOME/.dot.git/ --work-tree=$HOME"

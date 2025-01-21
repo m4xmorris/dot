@@ -1,7 +1,10 @@
 [colors]
 
+[font]
+size = 7.5
+
 [window]
-decorations = "Full"
+decorations = "None"
 
 [colors.primary]
 background = "#282a36"
