@@ -56,7 +56,7 @@ complete -o default -F __start_kubectl k
 source /usr/share/fzf/completion.bash
 source /usr/share/fzf/key-bindings.bash
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-export SUDO_PROMPT="[⚡ sudo on $(cat /etc/hostname) for $USER]:"
+export SUDO_PROMPT="[⚡on $(cat /etc/hostname) for $USER]:"
 export GTK_THEME=Adwaita-dark
 # Env
 export VAULT_ADDR="https://vault.morrislan.net"

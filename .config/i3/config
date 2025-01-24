@@ -111,7 +111,7 @@ bindsym $mod+Shift+f floating toggle
 floating_modifier $mod
 
 # Kill the focused window
-bindsym $mod+q kill
+bindsym $mod+w kill
 
 # Rofi
 bindsym $mod+space exec --no-startup-id "rofi -show drun -show-icons"

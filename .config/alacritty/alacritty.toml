@@ -1,8 +1,8 @@
 [colors]
 
 [font]
+normal = { family = "Cousine Nerd Font Mono", style = "Regular" }
 size = 7.5
-
 [window]
 decorations = "None"
 
