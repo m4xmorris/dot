@@ -12,30 +12,30 @@ gaps inner 5
 gaps outer 2
 
 # bumblebee-status for status bar
-bar {
-	position top
-	tray_output primary
-	font pango:Ubuntu Monospace 8
-		colors {
-			background #282A36
-			statusline #F8F8F2
-			separator  #44475A
-
-			focused_workspace  #44475A #44475A #F8F8F2
-			active_workspace   #282A36 #44475A #F8F8F2
-			inactive_workspace #282A36 #282A36 #BFBFBF
-			urgent_workspace   #FF5555 #FF5555 #F8F8F2
-			binding_mode       #FF5555 #FF5555 #F8F8F2
-		}
-		i3bar_command i3bar
-		status_command bumblebee-status \
-			-m arch_update datetime cpu sensors memory battery caffeine spotify \
-			-p sensors.show_freq=false datetime.format="%a %e/%m/%Y %H:%M" cpu.format="{:.0f}%" memory.					format="{used} / {total}" \
-			-t dracula-powerline
-}
+#bar {
+#	position top
+#	tray_output primary
+#	font pango:Ubuntu Monospace 8
+#		colors {
+#			background #282A36
+#			statusline #F8F8F2
+#			separator  #44475A
+#
+#			focused_workspace  #44475A #44475A #F8F8F2
+#			active_workspace   #282A36 #44475A #F8F8F2
+#			inactive_workspace #282A36 #282A36 #BFBFBF
+#			urgent_workspace   #FF5555 #FF5555 #F8F8F2
+#			binding_mode       #FF5555 #FF5555 #F8F8F2
+#		}
+#		i3bar_command i3bar
+#		status_command bumblebee-status \
+#			-m arch_update datetime cpu sensors memory battery caffeine spotify \
+#			-p sensors.show_freq=false datetime.format="%a %e/%m/%Y %H:%M" cpu.format="{:.0f}%" memory.					format="{used} / {total}" \
+#			-t dracula-powerline
+#}
 
 # Set Keyboard Layout
-exec_always --no-startup-id setxkbmap gb
+exec_always --no-startup-id setxkbmap us
 
 # NumLock On
 exec_always --no-startup-id numlockx on
@@ -43,28 +43,25 @@ exec_always --no-startup-id numlockx on
 # Set Wallpaper
 exec_always --no-startup-id feh --bg-fill ${HOME}/wallpaper.png
 
-# Launch xfce4-power-manager
-exec --no-startup-id xfce4-power-manager --daemon
-
 # Launch Solaar (Logitech Unifying Software)
-exec --no-startup-id solaar -w hide
+#exec --no-startup-id solaar -w hide
 
 # Launch Nextcloud client
 exec --no-startup-id nextcloud
 
-# Launch volumeicon
-exec --no-startup-id volumeicon
-
 # Launch NetworkManager applet
 exec --no-startup-id nm-applet
-
-# Launch dunst (Notifications)
-exec --no-startup-id dunst
 
 # Launch Compton composition manager
 exec --no-startup-id compton
 
 # ------- Key Bindings -------
+
+# Volume keys
+bindsym XF86AudioRaiseVolume exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "increase_volume"
+bindsym XF86AudioLowerVolume exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "decrease_volume"
+bindsym XF86AudioMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mute"
+bindsym XF86AudioMicMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mic_mute"
 
 # Media keys
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -124,15 +121,17 @@ bindsym $mod+Shift+r restart
 
 # Quit i3
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Really exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
+# using plasma's logout screen instead of i3's
+#bindsym $mod+Shift+e exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
 
 # Screenshot to clipboard
 bindsym --release Ctrl+Print exec --no-startup-id "import png:- | xclip -selection clipboard -t image/png"
 
 # Launch Alacritty
-bindsym $mod+t exec --no-startup-id alacritty & i3 workspace $ws1
+bindsym $mod+t exec --no-startup-id alacritty & i3 workspace $ws2
 
 # Launch Firefox & switch to its workspace
-bindsym $mod+i exec --no-startup-id firefox & i3 workspace $ws2
+bindsym $mod+i exec --no-startup-id firefox & i3 workspace $ws1
 
 # Switch Workspaces
 bindsym $mod+1 workspace number $ws1
@@ -163,20 +162,20 @@ mode "resize" {
 
 # ------- Workspaces -------
 
-set $ws1 "1: "
-set $ws2 "2: "
-set $ws3 "3: "
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9: "
-set $ws10 "10: "
+set $ws9 "9"
+set $ws10 "10"
 
 # Make certain windows open in their workspace
-for_window [class="Alacritty"] move to workspace $ws1
-for_window [class="firefox"] move to workspace $ws2
+for_window [class="Alacritty"] move to workspace $ws2
+for_window [class="firefox"] move to workspace $ws1
 for_window [class="Slack"] move to workspace $ws3
 for_window [class="Spotify"] move to workspace $ws10
 
@@ -192,3 +191,23 @@ workspace $ws4 output primary
 workspace $ws8 output secondary
 workspace $ws9 output secondary
 workspace $ws10 output secondary
+
+# Plasma
+# Plasma compatibility improvements
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+for_window [class="yakuake"] floating enable
+for_window [class="systemsettings"] floating enable
+for_window [class="plasmashell"] floating enable;
+for_window [class="Plasma"] floating enable; border none
+for_window [title="plasma-desktop"] floating enable; border none
+for_window [title="win7"] floating enable; border none
+for_window [class="krunner"] floating enable; border none
+for_window [class="Kmix"] floating enable; border none
+for_window [class="Klipper"] floating enable; border none
+for_window [class="Plasmoidviewer"] floating enable; border none
+for_window [class="(?i)*nextcloud*"] floating disable
+for_window [class="plasmashell" window_type="notification"] border none, move position 70 ppt 81 ppt
+no_focus [class="plasmashell" window_type="notification"]
+for_window [title="Desktop @ QRect.*"] kill; floating enable; border none

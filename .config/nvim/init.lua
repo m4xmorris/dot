@@ -95,6 +95,7 @@ lazy.setup({
   {'nvim-treesitter/nvim-treesitter'},
   {'numToStr/Comment.nvim'},
   {'akinsho/toggleterm.nvim'},
+  {'kdheepak/lazygit.nvim'},
 })
 
 vim.opt.termguicolors = true
@@ -153,3 +154,7 @@ require('toggleterm').setup({
   direction = 'horizontal',
   shade_terminals = true
 })
+
+-- Lazygit keybinding
+vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Open LazyGit' })
+
