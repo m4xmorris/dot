@@ -1,5 +1,4 @@
 # ------- Startup -------
-
 # Set modifier key to Super/Windows/cmd
 set $mod Mod4
 
