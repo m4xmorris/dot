@@ -56,6 +56,8 @@ complete -o default -F __start_kubectl k
 source /usr/share/fzf/completion.bash
 source /usr/share/fzf/key-bindings.bash
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export GEM_HOME="$(gem env user_gemhome)"
+export PATH="$PATH:$GEM_HOME/bin"
 export SUDO_PROMPT="[⚡on $(cat /etc/hostname) for $USER]:"
 export GTK_THEME=Adwaita-dark
 # Env
@@ -77,3 +79,5 @@ alias kga="k get applications"
 alias kdp="k delete pods"
 alias ceph="k rook-ceph ceph"
 alias dot="/usr/bin/git --git-dir=$HOME/.dot.git/ --work-tree=$HOME"
+alias kill-all-mine="pkill -9 -u max"
+alias l="ls -al"

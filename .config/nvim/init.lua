@@ -95,7 +95,7 @@ lazy.setup({
   {'nvim-treesitter/nvim-treesitter'},
   {'numToStr/Comment.nvim'},
   {'akinsho/toggleterm.nvim'},
-  {'kdheepak/lazygit.nvim'},
+	{'kdheepak/lazygit.nvim'},
 })
 
 vim.opt.termguicolors = true
