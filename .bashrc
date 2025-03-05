@@ -15,16 +15,37 @@ fi
 
 # Functions
 ksw() {
-    if [[ -n "$1" ]]; then
-        kubectl ctx "$1"
-    else
-        kubectl ctx
+    # Fetch Teleport clusters
+    if command -v tsh &>/dev/null; then
+        tsh_clusters=$(tsh kube ls --format=json | jq -r 'map(.kube_cluster_name) | join("\n")' 2>/dev/null)
     fi
-    if [[ -n "$2" ]]; then
-        kubectl ns "$2"
-    else
-        kubectl ns
+
+    # Fetch all contexts from kubeconfig, excluding Teleport ones
+    kubecontexts=$(kubectl config get-contexts -o name | grep -vFf <(echo "$tsh_clusters"))
+
+    # Combine both lists for fzf selection
+    cluster=$(echo -e "$tsh_clusters\n$kubecontexts" | fzf --prompt="Select a cluster: " --height=10 --reverse)
+
+    if [[ -z "$cluster" ]]; then
+        echo "No cluster selected."
+        return 1
     fi
+
+    # Check if selected cluster is a Teleport cluster
+    if echo "$tsh_clusters" | grep -qx "$cluster"; then
+        tsh kube login "$cluster" >/dev/null
+    elif kubectl config get-contexts "$cluster" &>/dev/null; then
+        export KUBECONFIG="$HOME/.kube/config"
+        kubectl config use-context "$cluster" > /dev/null
+    else
+        return 1
+    fi
+
+    # Select namespace using fzf
+    namespace=$(kubectl get namespaces -o jsonpath='{.items[*].metadata.name}' 2>/dev/null | tr " " "\n" | fzf --prompt="Select a namespace: " --height=10 --reverse)
+    namespace=${namespace:-default} # Fallback to 'default' if none selected
+
+    kubectl config set-context --current --namespace="$namespace" > /dev/null
 }
 
 parse_git_branch() {
@@ -60,11 +81,12 @@ export GEM_HOME="$(gem env user_gemhome)"
 export PATH="$PATH:$GEM_HOME/bin"
 export SUDO_PROMPT="[⚡on $(cat /etc/hostname) for $USER]:"
 export GTK_THEME=Adwaita-dark
+
 # Env
-export VAULT_ADDR="https://vault.morrislan.net"
 export KCNF_SYMLINK=1
-#export HOOP_APIURL=https://hoop.morrislan.net
-#export HOOP_GRPCURL=grpcs://hoop-grpc.morrislan.net:443
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig
+export TELEPORT_PROXY="https://teleport.morrislan.net"
+eval "$(tsh --completion-script-bash)"
 
 # Aliases
 alias vim=nvim
@@ -72,7 +94,7 @@ alias kubectl=kubecolor
 alias k=kubectl
 alias racadm="docker run -v `pwd`:/mnt xfgavin/racadm"
 alias vssh=vault-ssh
-alias kgp="k get pods"
+alias kgp="kubecolor get pods"
 alias kgn="k get nodes"
 alias kgs="k get services"
 alias kga="k get applications"
