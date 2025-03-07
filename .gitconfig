@@ -7,7 +7,7 @@
 [user]
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE3uxUvPAknwJHQWKg+B9AKnOW1ijkjGzq5IjuguW8rC
 	name = Maxwell Morris
-	email = max@morrislan.net
+	email = git@maxmorris.io
 [credential]
 	helper = cache --timeout 21600
 	helper = oauth
