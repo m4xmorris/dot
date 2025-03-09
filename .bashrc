@@ -74,13 +74,11 @@ getPodsByNode() {
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 source <(kubectl completion bash)
 complete -o default -F __start_kubectl k
-source /usr/share/fzf/completion.bash
-source /usr/share/fzf/key-bindings.bash
+source /usr/share/bash-completion/completions/fzf
+source /usr/share/doc/fzf/examples/key-bindings.bash
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-export GEM_HOME="$(gem env user_gemhome)"
-export PATH="$PATH:$GEM_HOME/bin"
 export SUDO_PROMPT="[⚡on $(cat /etc/hostname) for $USER]:"
-export GTK_THEME=Adwaita-dark
+export GTK_THEME=Dracula
 
 # Env
 export KCNF_SYMLINK=1
@@ -103,3 +101,4 @@ alias ceph="k rook-ceph ceph"
 alias dot="/usr/bin/git --git-dir=$HOME/.dot.git/ --work-tree=$HOME"
 alias kill-all-mine="pkill -9 -u max"
 alias l="ls -al"
+alias sai="sudo apt update ; sudo apt install"
