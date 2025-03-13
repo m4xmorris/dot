@@ -72,6 +72,8 @@ getPodsByNode() {
 
 # Hacks
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+source /etc/bash_completion
+source /home/max/.config/op/plugins.sh
 source <(kubectl completion bash)
 complete -o default -F __start_kubectl k
 source /usr/share/bash-completion/completions/fzf
@@ -102,3 +104,4 @@ alias dot="/usr/bin/git --git-dir=$HOME/.dot.git/ --work-tree=$HOME"
 alias kill-all-mine="pkill -9 -u max"
 alias l="ls -al"
 alias sai="sudo apt update ; sudo apt install"
+alias argocd="argocd --core"
