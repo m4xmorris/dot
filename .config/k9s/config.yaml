@@ -14,6 +14,8 @@ k9s:
     reactive: true
     noIcons: false
     defaultsToFullScreen: false
+  featureGates:
+    nodeShell: true
   skipLatestRevCheck: false
   disablePodCounting: false
   shellPod:

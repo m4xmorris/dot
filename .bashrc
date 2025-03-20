@@ -85,7 +85,7 @@ export GTK_THEME=Dracula
 # Env
 export KCNF_SYMLINK=1
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig
-export TELEPORT_PROXY="https://teleport.morrislan.net"
+export TELEPORT_PROXY="teleport.morrislan.net:443"
 eval "$(tsh --completion-script-bash)"
 
 # Aliases
